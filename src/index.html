@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
+<title>Nerity 启动器</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+  <!-- 侧边导航 -->
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="logo">N</div>
+      <div class="brand-text">
+        <span class="brand-name">Nerity</span>
+        <span class="brand-sub">MC 启动器</span>
+      </div>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item active" data-view="home">
+        <span class="nav-icon">⌂</span><span>首页</span>
+      </button>
+      <button class="nav-item" data-view="versions">
+        <span class="nav-icon">▤</span><span>版本管理</span>
+      </button>
+      <button class="nav-item" data-view="mods">
+        <span class="nav-icon">◈</span><span>模组</span>
+      </button>
+      <button class="nav-item" data-view="settings">
+        <span class="nav-icon">⚙</span><span>设置</span>
+      </button>
+    </div>
+    <div class="sidebar-foot">
+      <div class="acc-badge" id="accBadge">离线</div>
+      <div class="ver">v0.1.0 · Windows</div>
+    </div>
+  </nav>
+
+  <!-- 主区域 -->
+  <main class="content">
+
+    <!-- 首页 -->
+    <section class="view active" id="view-home">
+      <header class="view-head">
+        <h1>欢迎回来</h1>
+        <p class="muted">选择版本并开始你的 Minecraft 之旅</p>
+      </header>
+
+      <div class="home-grid">
+        <div class="card launch-card">
+          <h2>启动游戏</h2>
+          <label class="field-label">游戏版本</label>
+          <select id="launchVersion" class="input"></select>
+
+          <label class="field-label">分配内存</label>
+          <div class="mem-row">
+            <input type="range" id="memSlider" min="1024" max="8192" step="512" value="2048" />
+            <span class="mem-val" id="memVal">2048 MB</span>
+          </div>
+
+          <button class="btn primary big" id="launchBtn">▶ 启动游戏</button>
+          <div class="launch-status" id="launchStatus"></div>
+        </div>
+
+        <div class="col">
+          <div class="card acc-card">
+            <h2>当前账号</h2>
+            <div class="acc-detail">
+              <div class="avatar" id="avatar">S</div>
+              <div class="acc-info">
+                <div class="acc-name" id="accName">未登录</div>
+                <div class="acc-mode" id="accMode">离线模式</div>
+              </div>
+            </div>
+            <input id="offlineName" class="input" placeholder="离线昵称（如 Steve）" />
+            <button class="btn" id="saveOfflineBtn">保存离线账号</button>
+            <div class="ms-divider"><span>或</span></div>
+            <button class="btn ms-btn" id="msLoginBtn">微软账号登录</button>
+            <div class="ms-box hidden" id="msBox">
+              <div class="ms-title">在打开的网页中输入代码：</div>
+              <div class="ms-code" id="msCode">------</div>
+              <div class="muted" id="msStatus">正在获取设备码…</div>
+            </div>
+          </div>
+          <div class="card info-card">
+            <h2>Java</h2>
+            <div id="javaInfo" class="muted">正在检测…</div>
+            <div class="java-dl">
+              <span class="muted">未检测到时自动下载：</span>
+              <div class="java-btns">
+                <button class="btn" data-java="17">Java 17</button>
+                <button class="btn" data-java="21">Java 21</button>
+                <button class="btn" data-java="8">Java 8</button>
+              </div>
+              <div id="javaDlStatus" class="muted"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 版本管理 -->
+    <section class="view" id="view-versions">
+      <header class="view-head row">
+        <div>
+          <h1>版本管理</h1>
+          <p class="muted">从官方 / 镜像源下载 Minecraft 版本</p>
+        </div>
+        <div class="toolbar">
+          <select id="sourceSel" class="input slim">
+            <option value="bmclapi">国内镜像</option>
+            <option value="mojang">官方源</option>
+          </select>
+          <select id="typeFilter" class="input slim">
+            <option value="all">全部</option>
+            <option value="release">正式版</option>
+            <option value="snapshot">快照版</option>
+            <option value="old_beta">远古版</option>
+            <option value="old_alpha">Alpha</option>
+          </select>
+          <button class="btn" id="refreshVersions">刷新</button>
+        </div>
+      </header>
+
+      <div class="progress hidden" id="dlProgress">
+        <div class="progress-text" id="dlProgressText">准备下载…</div>
+        <div class="bar"><div class="bar-fill" id="dlBar"></div></div>
+      </div>
+
+      <div class="version-list" id="versionList"><div class="muted">加载中…</div></div>
+    </section>
+
+    <!-- 模组中心 -->
+    <section class="view" id="view-mods">
+      <header class="view-head">
+        <h1>模组中心</h1>
+        <p class="muted">从 Modrinth 搜索并下载模组，支持 Forge / Fabric / NeoForge 加载器</p>
+      </header>
+
+      <div class="mod-toolbar">
+        <input id="modQuery" class="input" placeholder="搜索模组，如 Sodium、JEI、暮色森林…" />
+        <input id="modVersion" class="input slim" placeholder="MC 版本，如 1.21.1" />
+        <select id="modLoader" class="input slim">
+          <option value="">全部加载器</option>
+          <option value="forge">Forge</option>
+          <option value="fabric">Fabric</option>
+          <option value="neoforge">NeoForge</option>
+          <option value="quilt">Quilt</option>
+        </select>
+        <button class="btn primary" id="modSearchBtn">搜索</button>
+      </div>
+
+      <div class="progress hidden" id="modDlProgress">
+        <div class="progress-text" id="modDlText">准备下载…</div>
+        <div class="bar"><div class="bar-fill" id="modDlBar"></div></div>
+      </div>
+
+      <div class="mod-list" id="modList"><div class="muted">输入关键词，搜索你想要的模组</div></div>
+    </section>
+
+    <!-- 设置 -->
+    <section class="view" id="view-settings">
+      <header class="view-head"><h1>设置</h1><p class="muted">游戏目录、Java 与运行参数</p></header>
+      <div class="card settings-card">
+        <div class="setting-row">
+          <label>游戏目录</label>
+          <div class="row-input">
+            <input id="cfgGameDir" class="input" />
+            <button class="btn" id="chooseDirBtn">选择</button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <label>Java 路径</label>
+          <div class="row-input">
+            <input id="cfgJavaPath" class="input" placeholder="留空自动检测" />
+            <button class="btn" id="detectJavaBtn">检测</button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <label>分配内存 (MB)</label>
+          <div class="row-input"><input id="cfgMemory" class="input" type="number" min="1024" /></div>
+        </div>
+        <div class="setting-row">
+          <label>离线昵称</label>
+          <div class="row-input"><input id="cfgName" class="input" /></div>
+        </div>
+        <div class="setting-row">
+          <label>窗口分辨率</label>
+          <div class="row-input"><input id="cfgRes" class="input" placeholder="如 1280x720，留空默认" /></div>
+        </div>
+        <div class="setting-row">
+          <label>额外 JVM 参数</label>
+          <div class="row-input"><input id="cfgJvm" class="input" placeholder="如 -XX:+UseG1GC" /></div>
+        </div>
+        <div class="settings-foot">
+          <button class="btn primary" id="saveSettings">保存设置</button>
+          <span class="muted" id="settingsMsg"></span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="renderer.js"></script>
+</body>
+</html>

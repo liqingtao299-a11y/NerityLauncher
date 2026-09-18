@@ -1,0 +1,41 @@
+{
+  "name": "nerity-launcher",
+  "productName": "Nerity 启动器",
+  "version": "0.1.0",
+  "description": "Nerity —— 一款现代 Minecraft 启动器（类 PCL），跨平台，先支持 Windows",
+  "main": "main.js",
+  "author": "Nerity",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.nerity.launcher",
+    "productName": "Nerity",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "shortcutName": "Nerity 启动器"
+    }
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "latest"
+  }
+}
