@@ -15,7 +15,7 @@
 
 | 平台 | 状态 | 下载 |
 |------|------|------|
-| Windows | ✅ 已发布 | [下载][(https://github.com/nerity-launcher/NerityLauncher/releases)](https://github.com/liqingtao299-a11y/NerityLauncher/releases/tag/v0.1.0) |
+| Windows | ✅ 已发布 | [下载][(https://github.com/liqingtao299-a11y/NerityLauncher/releases/tag/v0.1.0](https://github.com/liqingtao299-a11y/NerityLauncher/releases/tag/v0.2.0)] |
 | macOS | 🚧 开发中 | 敬请期待 |
 | iOS / Android | 🧭 规划中 | - |
 
